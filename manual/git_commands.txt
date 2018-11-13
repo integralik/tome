@@ -3,6 +3,8 @@
 Поставить Git, запустить Git Bash. Выполнить команды
 git config --global user.name "Vitaly Kvitkovskiy"
 git config --global user.email integralik@gmail.com
+И назначить некоторые алиасы. Например:
+git config --global alias.last3 "log -3"
 
 В начале сеанса
 
@@ -23,6 +25,7 @@ git rm filename.ext - удалить файл из коммита.
 git status - посмотреть, какие файлы новые, либо добавлены в коммит.
 git diff - сравнение текущего added с последним commit
 git diff --staged - сравнение текущего не-added с последним commit
+git diff <hash1> <hash2> (<filename.ext>) - посмотреть разницу между коммитами (в конкретном файле). Хэши можно посмотреть командой git log --pretty=oneline, берутся первые 7 символов.
 git commit --amend - сделать коммит ещё раз (исправление предыдущего коммита).
 git reset HEAD filename.ext - убрать файл из add, оставив в нём изменения.
 git checkout -- filename.ext - убрать файл из add и вернуть его текст в состоянии до коммита.
@@ -43,4 +46,18 @@ git remote -v - показать список удалённых репозиториев с их алиасами.
 git clone https://github.com/integralik/tome.git . - выгружает в текущий каталог (он должен быть пустой) удаленный репозиторий. Если не поставить точку в конце - сначала создаст папку tome и в ней уже это сделает. Можно указать название папки: git clone https://github.com/integralik/tome.git myclonefolder.
 Если удалённого репозитория нет, то он создаётся на github.com, и там же находится ссылка.
 git push <alias> <branch>, например git push origin master - отправляет в удаленный репозиторий ветку и связанные с ней коммиты.
-git pull <alias> - получает из удаленного репозитория данные и пытается смерджить их с текущим кодом.
+git pull <alias> <branch> - получает из удаленного репозитория данные ветки и пытается смерджить их с текущим кодом.
+
+Метки - см. git tag
+
+Создание ветки
+
+git branch branchName - создание ветки branchName там, куда указывает HEAD
+git checkout branchName - переключение на ветку branchName. Между чекаутами лучше делать коммиты.
+Создать ветку и сразу перейти на неё - git checkout -b branchName
+git merge branchName - сливает изменения ветки branchName в текущую ветку. После этого в принципе ветку branchName можно удалить (git branch -d branchName).
+В случае конфликтов при merge в код файла просто добавляется разница, можно его вручную открыть, исправить и сделать git add filename.
+git mergetool вызывает инструмент для разрешения конфликтов.
+git branch -v - показывает список меток. Со * - HEAD.
+git branch --merged - слитые ветки. Те, что без *, можно удалить.
+git branch --no-merged - посмотреть список ещё не слитых веток.
